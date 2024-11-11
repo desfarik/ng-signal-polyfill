@@ -19,12 +19,13 @@ This library provides support for signals in Angular, offering a range of featur
 
 | Feature          | Angular Compatibility  | Notes                                                                               |
 |------------------|------------------------|-------------------------------------------------------------------------------------|
-| Computed         | ✅ Fully supported      | Fully compatible with Angular's computed properties.                                |
-| Signal           | ✅ Fully supported      | Fully compatible with Angular's signal properties.                                  |
-| Effect           | ⚠️ Partially supported | No support for injector and manualCleanup options.                                  |
+| **Primitives**   |                        |                                                                                     |
+| computed         | ✅ Fully supported      | Fully compatible with Angular's computed properties.                                |
+| signal           | ✅ Fully supported      | Fully compatible with Angular's signal properties.                                  |
+| effect           | ⚠️ Partially supported | No support for injector and manualCleanup options.                                  |
 |                  |                        | manualCleanup is always enabled, so remember to clean up subscriptions manually.    |
 |                  |                        | Recommendation: Avoid using effect. Use the safer and simpler toObservable instead. |
-| **RxJS Interop**                                                                                                              |
+| **RxJS Interop** |
 | toObservable     | ⚠️ Partially supported | Only manual unsubscription is supported, without injector provider.                 |
 | toSignal         | ❌ Not supported        | No support for converting observables to signals.                                   |
 
