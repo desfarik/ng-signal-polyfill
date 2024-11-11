@@ -7,7 +7,7 @@
     "build": "ng build lib",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "version:patch": "npm version patch -no-git",
+    "version:patch": "npm version patch --no-git",
     "version:minor": "npm version minor",
     "postversion": ""
   },
