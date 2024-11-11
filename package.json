@@ -9,7 +9,8 @@
     "test": "ng test",
     "version:patch": "npm version patch --no-git",
     "version:minor": "npm version minor",
-    "postversion": ""
+    "version:major": "npm version major",
+    "postversion": "postversion.js"
   },
   "dependencies": {
     "@angular/animations": "~12.2.0",
