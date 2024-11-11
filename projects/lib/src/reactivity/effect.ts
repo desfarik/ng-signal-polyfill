@@ -7,7 +7,7 @@
  */
 
 import { Watch, watch } from '../signals';
-
+import 'zone.js';
 /**
  * An effect can, optionally, register a cleanup function. If registered, the cleanup is executed
  * before the next effect run. The cleanup function makes it possible to "cancel" any work that the
