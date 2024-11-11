@@ -8,7 +8,7 @@ on:
     types: [created]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,10 +16,10 @@ jobs:
         with:
           node-version: 16
       - run: npm ci
-      - run: npm run build
+      - run: npm test
 
   publish-npm:
-    needs: build
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,6 +28,7 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - run: npm publish
+      - run: npm run build
+      - run: npm publish /dist/lib
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
