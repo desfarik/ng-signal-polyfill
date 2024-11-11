@@ -1,24 +1,39 @@
-# Lib
+# ngx-signal-polyfill
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.0.
+## Overview
 
-## Code scaffolding
+**ngx-signal-polyfill** — library for supporting signals in old versions of angular
+This library provides support for signals in Angular, offering a range of features to enhance your development experience.
 
-Run `ng generate component component-name --project lib` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project lib`.
-> Note: Don't forget to add `--project lib` or else it will be added to the default project in your `angular.json` file. 
+## Version Compatibility
 
-## Build
+| Angular Version | Library Version |
+|-----------------|-----------------|
+| 12              | 12.x            |
+| 13              | 12.x            |
+| 14              | 14.x            |
+| 15              | 14.x            |
+| 16              | 16.x            |
 
-Run `ng build lib` to build the project. The build artifacts will be stored in the `dist/` directory.
+## API Compatibility
 
-## Publishing
+| Feature          | Angular Compatibility  | Notes                                                                               |
+|------------------|------------------------|-------------------------------------------------------------------------------------|
+| **Primitives**   |                        |                                                                                     |
+| computed         | ✅ Fully supported      | Fully compatible with Angular's computed properties.                                |
+| signal           | ✅ Fully supported      | Fully compatible with Angular's signal properties.                                  |
+| effect           | ⚠️ Partially supported | No support for injector and manualCleanup options.                                  |
+|                  |                        | manualCleanup is always enabled, so remember to clean up subscriptions manually.    |
+|                  |                        | Recommendation: Avoid using effect. Use the safer and simpler toObservable instead. |
+| **RxJS Interop** |
+| toObservable     | ⚠️ Partially supported | Only manual unsubscription is supported, without injector provider.                 |
+| toSignal         | ❌ Not supported        | No support for converting observables to signals.                                   |
 
-After building your library with `ng build lib`, go to the dist folder `cd dist/lib` and run `npm publish`.
+## Future Plans
 
-## Running unit tests
+• Migration Tool: We plan to develop a migration tool to help you transition to Angular 16, allowing you to replace the polyfill with native signal support.
 
-Run `ng test lib` to execute the unit tests via [Karma](https://karma-runner.github.io).
+•  [Signal queries](https://angular.dev/guide/signals/queries) ViewChild and ViewChildren Support: Development is underway to support ViewChild and ViewChildren.
 
-## Further help
+•  [Signal inputs](https://angular.dev/guide/signals/inputs) Signal inputs: Input Signal: We are working on adding support for input signals.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
