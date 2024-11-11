@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, inject, OnDestroy, Pipe, PipeTransform } from '@angular/core';
+import { ChangeDetectorRef, inject, Injector, OnDestroy, Pipe, PipeTransform } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Signal } from '../signals';
@@ -15,7 +15,7 @@ export class SignalPipe implements PipeTransform, OnDestroy {
 
   asyncPipe: AsyncPipe;
 
-  constructor(changeDetectorRef: ChangeDetectorRef) {
+  constructor(changeDetectorRef: ChangeDetectorRef, private injector: Injector) {
     this.asyncPipe = new AsyncPipe(changeDetectorRef);
 
   }

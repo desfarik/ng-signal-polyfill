@@ -6,11 +6,11 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Observable, ReplaySubject} from 'rxjs';
-import {Signal, untracked} from "../../signals";
-import {effect} from "../../reactivity/effect";
-import {Injector} from "@angular/core";
-import {finalize} from "rxjs/operators";
+import { Observable, ReplaySubject } from 'rxjs';
+import { Signal, untracked } from '../../signals';
+import { effect } from '../../reactivity/effect';
+import { Injector } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 
 /**
  * Options for `toObservable`.
@@ -53,7 +53,6 @@ export function toObservable<T>(
   });
 
   return subject.asObservable().pipe(finalize(() => {
-    console.log('clean to observable');
-    watcher.destroy()
+    watcher.destroy();
   }));
 }

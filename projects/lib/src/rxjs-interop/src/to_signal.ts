@@ -6,8 +6,10 @@
 //  * found in the LICENSE file at https://angular.io/license
 //  */
 //
-// import {assertInInjectionContext, assertNotInReactiveContext, computed, DestroyRef, inject, Injector, signal, Signal, WritableSignal, ɵRuntimeError, ɵRuntimeErrorCode} from '@angular/core';
+//
 // import {Observable, Subscribable} from 'rxjs';
+// import { computed, signal, WritableSignal } from 'ngx-signal-polyfill';
+// import { isDevMode, ɵRuntimeError, ɵRuntimeErrorCode } from '@angular/core';
 //
 // /**
 //  * Options for `toSignal`.
@@ -31,23 +33,6 @@
 //    * not met.
 //    */
 //   requireSync?: boolean;
-//
-//   /**
-//    * `Injector` which will provide the `DestroyRef` used to clean up the Observable subscription.
-//    *
-//    * If this is not provided, a `DestroyRef` will be retrieved from the current [injection
-//    * context](/guide/dependency-injection-context), unless manual cleanup is requested.
-//    */
-//   injector?: Injector;
-//
-//   /**
-//    * Whether the subscription should be automatically cleaned up (via `DestroyRef`) when
-//    * `toObservable`'s creation context is destroyed.
-//    *
-//    * If manual cleanup is enabled, then `DestroyRef` is not used, and the subscription will persist
-//    * until the `Observable` itself completes.
-//    */
-//   manualCleanup?: boolean;
 //
 //   /**
 //    * Whether `toSignal` should throw errors from the Observable error channel back to RxJS, where
@@ -106,7 +91,7 @@
 // export function toSignal<T, U = undefined>(
 //     source: Observable<T>|Subscribable<T>,
 //     options?: ToSignalOptions&{initialValue?: U}): Signal<T|U> {
-//   ngDevMode &&
+//   isDevMode() &&
 //       assertNotInReactiveContext(
 //           toSignal,
 //           'Invoking `toSignal` causes new subscriptions every time. ' +
@@ -148,10 +133,8 @@
 //     // "complete".
 //   });
 //
-//   if (ngDevMode && options?.requireSync && state().kind === StateKind.NoValue) {
-//     throw new ɵRuntimeError(
-//         ɵRuntimeErrorCode.REQUIRE_SYNC_WITHOUT_SYNC_EMIT,
-//         '`toSignal()` called with `requireSync` but `Observable` did not emit synchronously.');
+//   if (isDevMode() && options?.requireSync && state().kind === StateKind.NoValue) {
+//     throw new Error('`toSignal()` called with `requireSync` but `Observable` did not emit synchronously.');
 //   }
 //
 //   // Unsubscribe when the current context is destroyed, if requested.
@@ -169,9 +152,7 @@
 //       case StateKind.NoValue:
 //         // This shouldn't really happen because the error is thrown on creation.
 //         // TODO(alxhub): use a RuntimeError when we finalize the error semantics
-//         throw new ɵRuntimeError(
-//             ɵRuntimeErrorCode.REQUIRE_SYNC_WITHOUT_SYNC_EMIT,
-//             '`toSignal()` called with `requireSync` but `Observable` did not emit synchronously.');
+//         throw new Error('`toSignal()` called with `requireSync` but `Observable` did not emit synchronously.');
 //     }
 //   });
 // }

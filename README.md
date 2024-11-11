@@ -1,27 +1,38 @@
-# NgSignalPolyfill
+# ngx-signal-polyfill
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.18.
+## Overview
 
-## Development server
+**ngx-signal-polyfill** — library for supporting signals in old versions of angular
+This library provides support for signals in Angular, offering a range of features to enhance your development experience.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Version Compatibility
 
-## Code scaffolding
+| Angular Version | Library Version |
+|-----------------|-----------------|
+| 12              | 12.x            |
+| 13              | 12.x            |
+| 14              | 14.x            |
+| 15              | 14.x            |
+| 16              | 16.x            |
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## API Compatibility
 
-## Build
+| Feature          | Angular Compatibility | Notes                                                                               |
+|------------------|-----------------------|-------------------------------------------------------------------------------------|
+| Computed         | ✅ Fully supported     | Fully compatible with Angular's computed properties.                                |
+| Signal           | ✅ Fully supported     | Fully compatible with Angular's signal properties.                                  |
+| Effect           | Partially supported   | No support for injector and manualCleanup options.                                  |
+|                  |                       | manualCleanup is always enabled, so remember to clean up subscriptions manually.    |
+|                  |                       | Recommendation: Avoid using effect. Use the safer and simpler toObservable instead. |
+| **RxJS Interop**                                                                                                              |
+| toObservable     | Partially supported   | Only manual unsubscription is supported, without injector provider.                 |
+| toSignal         | ❌ Not supported       | No support for converting observables to signals.                                   |
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Future Plans
 
-## Running unit tests
+• Migration Tool: We plan to develop a migration tool to help you transition to Angular 16, allowing you to replace the polyfill with native signal support.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+•  [Signal queries](https://angular.dev/guide/signals/queries) ViewChild and ViewChildren Support: Development is underway to support ViewChild and ViewChildren.
 
-## Running end-to-end tests
+•  [Signal inputs](https://angular.dev/guide/signals/inputs) Signal inputs: Input Signal: We are working on adding support for input signals.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

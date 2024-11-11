@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { computed } from 'ngx-signal-polyfill';
+import { ChangeDetectionStrategy, Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { computed, effect, toObservable } from 'ngx-signal-polyfill';
 import { StoreService } from '../store.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { StoreService } from '../store.service';
   templateUrl: './child2.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Child2Component implements OnInit {
+export class Child2Component implements OnInit, OnDestroy {
 
   a = computed(() => `value from store: ${this.store.number()}`);
 
@@ -18,7 +18,23 @@ export class Child2Component implements OnInit {
     { name: 'name 4' }
   ];
 
-  constructor(public store: StoreService) {
+  effectUnsubscribe = effect(() => {
+    console.log(`effect inprogress ${this.store.inProgress()}`);
+  }, { allowSignalWrites: true });
+
+  obsSubs = toObservable(this.store.inProgress).subscribe(v => {
+    console.log('sub ' + v);
+    this.store.increase();
+  });
+
+  constructor(public store: StoreService, injector: Injector) {
+
+
+  }
+
+  ngOnDestroy(): void {
+    this.effectUnsubscribe.destroy();
+    this.obsSubs.unsubscribe();
   }
 
   ngOnInit(): void {
