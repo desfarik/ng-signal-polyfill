@@ -10,7 +10,7 @@
     "version:patch": "npm version patch --no-git",
     "version:minor": "npm version minor",
     "version:major": "npm version major",
-    "postversion": "postversion.js"
+    "postversion": "node postversion.js && git add . &&git commit -m \"Sync lib version\""
   },
   "dependencies": {
     "@angular/animations": "~12.2.0",
