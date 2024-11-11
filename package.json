@@ -1,12 +1,16 @@
 {
   "name": "ngx-signal-polyfill",
-  "version": "0.0.0",
+  "version": "13.0.4",
   "scripts": {
     "ng": "ng",
     "start": "ng serve demo",
     "build": "ng build lib",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "version:patch": "npm version patch --no-git",
+    "version:minor": "npm version minor",
+    "version:major": "npm version major",
+    "postversion": "postversion.js"
   },
   "dependencies": {
     "@angular/animations": "~12.2.0",
@@ -36,7 +40,7 @@
     "ng-packagr": "^12.1.1",
     "typescript": "~4.3.5"
   },
-  "engines" : {
-    "node" : ">=14 <17"
+  "engines": {
+    "node": ">=14 <17"
   }
 }
