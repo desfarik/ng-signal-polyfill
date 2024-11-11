@@ -1,6 +1,6 @@
 {
   "name": "ngx-signal-polyfill",
-  "version": "13.0.1",
+  "version": "13.0.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve demo",
