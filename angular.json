@@ -133,5 +133,5 @@
       }
     }
   },
-  "defaultProject": "ng-signal-polyfill"
+  "defaultProject": "ngx-signal-polyfill"
 }
