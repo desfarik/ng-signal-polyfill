@@ -7,7 +7,7 @@
     "build": "ng build lib",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "version:patch": "npm version patch --no-git",
+    "version:patch": "npm version patch",
     "version:minor": "npm version minor",
     "version:major": "npm version major",
     "postversion": "node postversion.js && git add . &&git commit -m \"Sync lib version\""
