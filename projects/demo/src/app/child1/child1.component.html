@@ -1,0 +1,19 @@
+<p>child1 works!</p>
+<p>{{ a | signal }}</p>
+<p> counter: {{ counter| signal }}</p>
+<button (click)="change()">change</button>
+
+<p>switchable: {{ switchable| signal }}</p>
+<button (click)="switch()">switch</button>
+
+<hr>
+
+<p>loading: {{ store.inProgress | signal }}</p>
+<p>user name: {{ store.name| signal }}</p>
+<p>user age: {{ store.age| signal }}</p>
+
+<hr>
+
+<p>obs 1 : {{ store.number1 | async }}</p>
+<p>obs 2 : {{ store.number2 | async }}</p>
+<div>ChangeDetectionCycleCount: {{ GetChangeDetectionCount }}</div>
