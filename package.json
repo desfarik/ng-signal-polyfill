@@ -9,7 +9,7 @@
     "test": "ng test",
     "version:patch": "npm version patch",
     "version:minor": "npm version minor",
-    "version:major": "npm version minor",
+    "version:major": "npm version major",
     "postversion": ""
   },
   "dependencies": {
