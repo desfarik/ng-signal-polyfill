@@ -15,9 +15,8 @@ export class SignalPipe implements PipeTransform, OnDestroy {
 
   asyncPipe: AsyncPipe;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, private injector: Injector) {
+  constructor(changeDetectorRef: ChangeDetectorRef) {
     this.asyncPipe = new AsyncPipe(changeDetectorRef);
-
   }
 
   observable!: Observable<any>;

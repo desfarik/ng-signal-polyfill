@@ -56,7 +56,6 @@ export class EffectManager {
     w.notify();
 
     const destroy = () => {
-      console.log('effect destroy');
       w.cleanup();
       this.all.delete(w);
       this.queue.delete(w);
