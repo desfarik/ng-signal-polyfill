@@ -1,6 +1,6 @@
 {
   "name": "ngx-signal-polyfill",
-  "version": "12.0.6",
+  "version": "12.0.7",
   "scripts": {
     "ng": "ng",
     "start": "ng serve demo",
@@ -43,7 +43,6 @@
   "engines": {
     "node": ">=14 <17"
   },
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/desfarik/ngx-signal-polyfill.git"
