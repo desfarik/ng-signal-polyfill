@@ -9,9 +9,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "ngx-signal-polyfill": [
-        "projects/lib/src/public-api.ts"
-      ]
+
     },
     "sourceMap": true,
     "declaration": false,
