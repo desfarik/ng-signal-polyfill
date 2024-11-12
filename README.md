@@ -9,11 +9,11 @@ This library provides support for signals in Angular, offering a range of featur
 
 | Angular Version | Library Version |
 |-----------------|-----------------|
-| 12              | 12.x            |
-| 13              | 12.x            |
-| 14              | 14.x            |
-| 15              | 14.x            |
-| 16              | 16.x            |
+| 8               | 8.x             |
+| 9               | 9.x             |
+| 10              | 10.x            |
+| 11              | 11.x            |
+| >=12            | 12.x            |
 
 ## API Compatibility
 
