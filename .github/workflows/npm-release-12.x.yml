@@ -38,6 +38,7 @@ jobs:
           NEW_VERSION=$(npm version patch)
           echo "new_version=${NEW_VERSION}" >> $GITHUB_ENV
           git push origin 12.x
+          git push origin $NEW_VERSION # Пушим тег
 
       - name: Create Release
         id: create_release
