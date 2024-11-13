@@ -30,7 +30,7 @@ jobs:
       - name: Cherry-pick commit
         run: |
           git checkout '12.x'
-          git cherry-pick ${{ github.event.before }}..${{ github.event.after }}^
+          git cherry-pick ${{ github.event.before }}..${{ github.event.after }}
 
       - name: Push changes
         run: |
