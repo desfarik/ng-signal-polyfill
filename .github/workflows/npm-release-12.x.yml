@@ -13,13 +13,13 @@ on:
 
 jobs:
   create-release:
-    uses: ./.github/workflows/create-release.yml
+    uses: ./.github/templates/create-release.yml
     with:
       new_version: ${{ inputs.version }}
       target_branch: '12.x'
 
   publish-to-npm:
     needs: create-release
-    uses: ./.github/workflows/publish-to-npm.yml
+    uses: ./.github/templates/publish-to-npm.yml
     with:
       target_branch: '12.x'
