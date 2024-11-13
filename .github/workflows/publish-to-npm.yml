@@ -1,0 +1,35 @@
+name: Create Release
+
+on:
+  workflow_call:
+    inputs:
+      target_branch:
+        description: 'Target branch to cherry-pick to'
+        type: string
+        required: true
+
+      node_version:
+        description: 'Node version to use'
+        type: string
+        default: '16'
+
+jobs:
+  publish-to-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+          registry-url: https://registry.npmjs.org/
+      - run: git checkout ${{ inputs.target_branch }}
+      - run: npm ci
+      - run: npm run build
+      - run: npm publish ./dist/lib
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+

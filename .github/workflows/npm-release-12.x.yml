@@ -13,59 +13,13 @@ on:
 
 jobs:
   create-release:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Bump version
-        id: bump_version
-        run: |
-          git checkout 12.x
-          git config user.name "GitHub Action"
-          git config user.email "action@github.com"
-          NEW_VERSION=$(npm version patch)
-          echo "new_version=${NEW_VERSION}" >> $GITHUB_ENV
-          git push origin 12.x
-
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ env.new_version }}
-          name: Release ${{ env.new_version }}
-          body: |
-            Release of version ${{ env.new_version }}.
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    uses: ./.github/workflows/create-release.yml
+    with:
+      new_version: ${{ inputs.version }}
+      target_branch: '12.x'
 
   publish-to-npm:
     needs: create-release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 16
-          registry-url: https://registry.npmjs.org/
-      - run: git checkout 12.x
-      - run: npm ci
-      - run: npm run build
-      - run: npm publish ./dist/lib
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+    uses: ./.github/workflows/publish-to-npm.yml
+    with:
+      target_branch: '12.x'
