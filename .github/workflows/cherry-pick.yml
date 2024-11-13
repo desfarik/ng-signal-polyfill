@@ -3,11 +3,14 @@ name: Cherry-pick
 on:
   workflow_call:
     inputs:
-      source_branch:
-        description: 'Source branch to cherry-pick from'
+      commit_from:
+        description: 'Commit hash from'
         type: string
         required: true
-        default: 'main'
+      commit_to:
+        description: 'Commit hash to'
+        type: string
+        required: true
       target_branch:
         description: 'Target branch to cherry-pick to'
         type: string
@@ -19,8 +22,6 @@ jobs:
     steps:
       - name: Checkout master branch
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
 
       - name: Set up Git
         run: |
@@ -29,8 +30,8 @@ jobs:
 
       - name: Cherry-pick commit
         run: |
-          git checkout '12.x'
-          git cherry-pick ${{ github.event.before }}..${{ github.event.after }}
+          git checkout ${{ github.event.inputs.target_branch }}
+          git cherry-pick ${{  github.event.inputs.commit_from }}..${{ github.event.inputs.commit_to }}
 
       - name: Push changes
         run: |
