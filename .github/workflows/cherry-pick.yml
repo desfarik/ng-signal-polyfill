@@ -30,8 +30,8 @@ jobs:
 
       - name: Cherry-pick commit
         run: |
-          git checkout ${{ github.event.inputs.target_branch }}
-          git cherry-pick ${{  github.event.inputs.commit_from }}..${{ github.event.inputs.commit_to }}
+          git checkout ${{ INPUT_TARGET-BRANCH }}
+          git cherry-pick ${{ INPUT_COMMIT-FROM }}..${{ INPUT_COMMIT-TO }}
 
       - name: Push changes
         run: |
