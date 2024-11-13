@@ -30,10 +30,10 @@ jobs:
 
       - name: Cherry-pick commit
         run: |
-          git checkout ${{ INPUT_TARGET-BRANCH }}
-          git cherry-pick ${{ INPUT_COMMIT-FROM }}..${{ INPUT_COMMIT-TO }}
+          git checkout ${{ inputs.target_branch }}
+          git cherry-pick ${{ inputs.commit_from }}..${{ inputs.commit_to }}
 
       - name: Push changes
         run: |
-          git push origin ${{ github.event.inputs.target_branch }}
+          git push origin ${{ inputs.target_branch }}
 
