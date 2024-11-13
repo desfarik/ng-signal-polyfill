@@ -30,7 +30,7 @@ jobs:
           NEW_VERSION=$(npm version patch)
           echo "new_version=${NEW_VERSION}" >> $GITHUB_ENV
           git tag $NEW_VERSION
-          git push origin 12.x --tags
+          git push origin 12.x
 
       - name: Create Release
         id: create_release
