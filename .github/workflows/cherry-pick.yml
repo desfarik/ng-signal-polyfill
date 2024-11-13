@@ -1,0 +1,40 @@
+name: Cherry-pick
+
+on:
+  workflow_call:
+    inputs:
+      source_branch:
+        description: 'Source branch to cherry-pick from'
+        type: string
+        required: true
+        default: 'main'
+      target_branch:
+        description: 'Target branch to cherry-pick to'
+        type: string
+        required: true
+
+jobs:
+  cherry_pick:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Git
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+
+      - name: Cherry-pick commit
+        run: |
+          git checkout ${{ github.event.inputs.target_branch }}
+          git cherry-pick ${{ github.event.inputs.source_branch }}..${{ github.event.inputs.source_branch }}^
+
+      - name: Push changes
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git push origin ${{ github.event.inputs.target_branch }}
+
