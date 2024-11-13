@@ -27,19 +27,12 @@ jobs:
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
 
-      - name: Get latest commit from source branch
-        id: get_commit
-        run: |
-          echo "::set-output name=commit::$(git rev-list --count ${{ github.event.before }}..${{ github.event.after }})"
-
       - name: Cherry-pick commit
         run: |
           git checkout ${{ github.event.inputs.target_branch }}
-          git cherry-pick ${{ github.event.inputs.source_branch }}..${{ github.event.inputs.source_branch }}^
+          git cherry-pick ${{ github.event.before }}..${{ github.event.after }}
 
       - name: Push changes
         run: |
-          git config user.name "GitHub Action"
-          git config user.email "action@github.com"
           git push origin ${{ github.event.inputs.target_branch }}
 
