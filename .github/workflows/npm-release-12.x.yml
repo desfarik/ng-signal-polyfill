@@ -24,10 +24,10 @@ jobs:
       - name: Bump version
         id: bump_version
         run: |
-            NEW_VERSION=$(npm version patch)
-            echo "new_version=${NEW_VERSION}" >> $GITHUB_ENV
             git config user.name "GitHub Action"
             git config user.email "action@github.com"
+            NEW_VERSION=$(npm version patch)
+            echo "new_version=${NEW_VERSION}" >> $GITHUB_ENV
             git tag $NEW_VERSION
             git push origin HEAD --tags
 
