@@ -2,6 +2,14 @@ name: Release 12.x
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version type'
+        required: true
+        type: choice
+        options:
+          - minor
+          - patch
 
 jobs:
   release:
