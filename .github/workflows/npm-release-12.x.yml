@@ -8,8 +8,8 @@ on:
         required: true
         type: choice
         options:
-          - minor
           - patch
+          - minor
 
 jobs:
   release:
