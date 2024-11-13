@@ -24,23 +24,23 @@ jobs:
       - name: Bump version
         id: bump_version
         run: |
-            git config user.name "GitHub Action"
-            git config user.email "action@github.com"
-            NEW_VERSION=$(npm version patch)
-            echo "new_version=${NEW_VERSION}" >> $GITHUB_ENV
-            git tag $NEW_VERSION
-            git push origin HEAD --tags
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          NEW_VERSION=$(npm version patch)
+          echo "new_version=${NEW_VERSION}" >> $GITHUB_ENV
+          git tag $NEW_VERSION
+          git push origin HEAD --tags
 
-            - name: Create Release
-              id: create_release
-              uses: softprops/action-gh-release@v1
-              with:
-                tag_name: ${{ env.new_version }}
-                release_name: Release ${{ env.new_version }}
-                body: |
-                  Release of version ${{ env.new_version }}.
-              env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.new_version }}
+          release_name: Release ${{ env.new_version }}
+          body: |
+            Release of version ${{ env.new_version }}.
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to npm
         run: npm publish
