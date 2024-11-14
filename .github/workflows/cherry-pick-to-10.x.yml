@@ -7,7 +7,7 @@ on:
 
 jobs:
   call_reusable_workflow:
-    uses: ./.github/templates/cherry-pick.yml
+    uses: ./.github/workflows/cherry-pick.yml
     with:
       commit_from: ${{ github.event.before }}
       commit_to: ${{ github.event.after }}
