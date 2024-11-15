@@ -10,5 +10,5 @@ import {SignalPipe} from "./signal.pipe";
     CommonModule
   ],
 })
-export class SignalModule {
+export class SignalPipeModule {
 }

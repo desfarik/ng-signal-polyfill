@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Child1Component } from './child1.component';
-import { SignalModule } from 'ngx-signal-polyfill';
+import { SignalPipeModule } from 'ngx-signal-polyfill';
 
 
 @NgModule({
@@ -9,7 +9,7 @@ import { SignalModule } from 'ngx-signal-polyfill';
   exports: [Child1Component],
   imports: [
     CommonModule,
-    SignalModule,
+    SignalPipeModule,
   ],
   providers: [
   ],

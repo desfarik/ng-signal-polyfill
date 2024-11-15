@@ -10,7 +10,7 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "ngx-signal-polyfill": [
-        "dist/lib"
+        "projects/lib/src/public-api.ts"
       ]
     },
     "sourceMap": true,

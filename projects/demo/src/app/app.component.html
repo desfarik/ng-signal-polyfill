@@ -1,2 +1,10 @@
-<app-child1></app-child1>
-<app-child2></app-child2>
+<div class="col">
+  <button (click)="toggleHide(child1Visible)">hide</button>
+  <hr>
+  <app-child1 *ngIf="child1Visible | signal"></app-child1>
+</div>
+<div class="col">
+  <button (click)="toggleHide(child2Visible)">hide</button>
+  <hr>
+  <app-child2 *ngIf="child2Visible | signal"></app-child2>
+</div>

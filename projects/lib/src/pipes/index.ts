@@ -1,2 +1,2 @@
-export * from './signal.module';
+export * from './signal-pipe.module';
 export * from './signal.pipe';
