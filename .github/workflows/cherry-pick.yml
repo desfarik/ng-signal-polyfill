@@ -1,0 +1,41 @@
+name: Cherry-pick
+
+on:
+  workflow_call:
+    inputs:
+      commit_from:
+        description: 'Commit hash from'
+        type: string
+        required: true
+      commit_to:
+        description: 'Commit hash to'
+        type: string
+        required: true
+      target_branch:
+        description: 'Target branch to cherry-pick to'
+        type: string
+        required: true
+
+jobs:
+  cherry_pick:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master branch
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Git
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+
+      - name: Cherry-pick commit
+        run: |
+          git checkout ${{ inputs.target_branch }}
+          git cherry-pick ${{ inputs.commit_from }}..${{ inputs.commit_to }}
+
+      - name: Push changes
+        run: |
+          git push origin ${{ inputs.target_branch }}
+

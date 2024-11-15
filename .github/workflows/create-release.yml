@@ -1,0 +1,52 @@
+name: Create Release
+
+on:
+  workflow_call:
+    inputs:
+      new_version:
+        description: 'New version type (patch, minor)'
+        type: string
+        required: true
+
+      node_version:
+        description: 'Node version to use'
+        type: string
+        default: '16'
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ inputs.node_version }}
+
+      - name: Bump version
+        id: bump_version
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          cd projects/lib
+          NEW_VERSION=$(npm version ${{ inputs.new_version }})
+          git add -A && git commit -m "Release ${NEW_VERSION}"
+          echo "new_version=${NEW_VERSION}" >> $GITHUB_ENV
+          git push
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.new_version }}
+          name: Release ${{ env.new_version }}
+          body: |
+            Release of version ${{ env.new_version }}.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

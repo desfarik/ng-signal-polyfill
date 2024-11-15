@@ -1,0 +1,12 @@
+name: Create Release
+
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        description: 'Node version to use'
+        type: string
+        default: '16'
+
+jobs:
+

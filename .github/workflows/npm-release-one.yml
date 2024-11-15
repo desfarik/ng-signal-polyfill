@@ -1,0 +1,45 @@
+name: Release One Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+      node_version:
+        description: 'Node version to use'
+        required: true
+        type: choice
+        options:
+          - 16
+          - 14
+
+jobs:
+  create-release:
+    uses: ./.github/workflows/create-release.yml
+    with:
+      new_version: ${{ inputs.version }}
+
+  publish-to-npm:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+          registry-url: https://registry.npmjs.org/
+      - run: git pull origin
+      - run: npm ci
+      - run: npm run build
+      - run: npm publish ./dist/lib
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
