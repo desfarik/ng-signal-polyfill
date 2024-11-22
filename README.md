@@ -1,8 +1,10 @@
 # ngx-signal-polyfill
 
+signals for all Angular versions
+
 ## Overview
 
-**ngx-signal-polyfill** — This library provides support for signals in Angular, offering a range of features to enhance your development experience.
+**ngx-signal-polyfill** — This library provides signals support to older versions of Angular. Improves developer experience with signals features and is easy to migrate to native Angular signals
 
 ## Version Compatibility
 
