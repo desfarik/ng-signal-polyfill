@@ -1,8 +1,24 @@
-.col {
-  width: 50%;
-}
 
 :host {
   display: flex;
-  gap: 20px;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.demo-list {
+  border-right: gray 1px solid;
+  padding: 15px;
+}
+
+.demo-link {
+  padding: 10px;
+  border-bottom: 1px solid darkgray;
+  cursor: pointer;
+  color: #777777;
+}
+.demo-link.active {
+  color: black;
+}
+
+.demo-container {
 }

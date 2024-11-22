@@ -69,21 +69,23 @@ export class StandaloneComponent {
 
 Use the signal pipe with your signal in your component:
 
+signal:
+
 ```typescript
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { signal } from 'ngx-signal-polyfill';
 
 @Component({
-  selector: 'app-counter',
+  selector: 'app-readme-signal',
   template: `
-  <p>Counter: {{ counter | signal }}</p>
-  <div>
-    <button (click)="increment()">increment</button>
-   </div> 
+    <p>Counter: {{ counter | signal }}</p>
+    <div>
+      <button (click)="increment()">increment</button>
+    </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CounterComponent {
+export class ReadmeSignalComponent {
   counter = signal(0);
 
   increment() {
@@ -92,45 +94,108 @@ export class CounterComponent {
 }
 ```
 
-## Comparison with Original Angular Signals
+computed:
 
 ```typescript
-
-import { Component, signal } from '@angular/core';
-import { signal as signalPolyfill } from 'ngx-signal-polyfill';
-
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { computed, signal } from 'ngx-signal-polyfill';
 
 @Component({
-  selector: 'app-counter',
+  selector: 'app-readme-computed',
   template: `
-  <p>Original Counter: {{ originalCounter() }}</p>
-  <p>Polyfill Counter: {{ polyfillCounter | signal }}</p>
-  <button (click)="increment()">increment</button>
+    <p>Counter: {{ counter | signal }}</p>
+    <p>Computed x2: {{ counterX2 | signal }}</p>
+    <div>
+      <button (click)="increment()">increment</button>
+    </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CounterComponent {
-  originalCounter = signal(0);
-  polyfillCounter = signalPolyfill(0);
+export class ReadmeComputedComponent {
+  counter = signal(0);
+  counterX2 = computed(() => this.counter() * 2);
 
   increment() {
-    this.originalCounter.set(this.originalCounter() + 1);
-    this.polyfillCounter.set(this.polyfillCounter() + 1);
+    this.counter.set(this.counter() + 1);
+  }
+}
+```
+
+effect:
+
+```typescript
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { effect, signal } from 'ngx-signal-polyfill';
+
+@Component({
+  selector: 'app-readme-effect',
+  template: `
+    <p>Counter: {{ counter | signal }}</p>
+    <div>
+      <button (click)="increment()">increment</button>
+    </div>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ReadmeEffectComponent implements OnDestroy {
+  counter = signal(0);
+
+  effectRef = effect(() => {
+    console.log(`effect: counter changed - ${this.counter()}`);
+  });
+
+  ngOnDestroy(): void {
+    this.effectRef.destroy();
+    console.log('effect: ref destroyed');
+  }
+
+  increment() {
+    this.counter.set(this.counter() + 1);
+  }
+}
+```
+
+toObservable:
+
+```typescript
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { signal, toObservable } from 'ngx-signal-polyfill';
+import { map } from 'rxjs/operators';
+
+@Component({
+  selector: 'app-readme-to-observable',
+  template: `
+    <p>Counter: {{ counter | signal }}</p>
+    <p>Counter x2: {{ counterX2$ | async }}</p>
+    <div>
+      <button (click)="increment()">increment</button>
+    </div>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ReadmeToObservableComponent {
+  counter = signal(0);
+
+  counterX2$ = toObservable(this.counter)
+    .pipe(map(x => x * 2));
+
+  increment() {
+    this.counter.set(this.counter() + 1);
   }
 }
 ```
 
 ## API Compatibility
 
-| Feature          | Angular Compatibility                  | Notes                                                  |
-|------------------|----------------------------------------|--------------------------------------------------------|
-| **Primitives**   |                                        |                                                        |
-| `computed`       | ✅ Fully supported                      | Just copied from @angular/core                         |
-| `signal`         | ✅ Fully supported                      | Just copied from @angular/core                         |
-| `effect`         | ⚠️ Supported only with `manualCleanup` | Copied and adopted to usage in older angular versions. |
+| Feature          | Angular Compatibility  | Notes                                                  |
+|------------------|------------------------|--------------------------------------------------------|
+| **Primitives**   |                        |                                                        |
+| `computed`       | ✅ Fully supported      | Just copied from @angular/core                         |
+| `signal`         | ✅ Fully supported      | Just copied from @angular/core                         |
+| `effect`         | ⚠️ Only manual cleanup | Copied and adopted to usage in older angular versions. |
 | **RxJS Interop** |
-| `toObservable`   | ⚠️ Supported only with `manualCleanup` | Copied and adopted to usage in older angular versions. |
-| `toSignal`       | ❌ Not supported                        | Coming soon                                            |
+| `toObservable`   | ⚠️ Only manual cleanup | Copied and adopted to usage in older angular versions. |
+| `toSignal`       | ❌ Not supported        | Coming soon                                            |
 
 ## Don't Forget to Unsubscribe
 

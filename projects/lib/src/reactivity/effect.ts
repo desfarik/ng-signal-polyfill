@@ -7,7 +7,7 @@
  */
 
 import { Watch, watch } from '../signals';
-import 'zone.js';
+
 /**
  * An effect can, optionally, register a cleanup function. If registered, the cleanup is executed
  * before the next effect run. The cleanup function makes it possible to "cancel" any work that the
@@ -27,18 +27,17 @@ export type EffectCleanupRegisterFn = (cleanupFn: EffectCleanupFn) => void;
  */
 export class EffectManager {
   private all = new Set<Watch>();
-  private queue = new Map<Watch, Zone | null>();
+  private queue = new Set<Watch>();
   private hasQueuedFlush = false;
 
   create(
     effectFn: (onCleanup: (cleanupFn: EffectCleanupFn) => void) => void,
     allowSignalWrites: boolean): EffectRef {
-    const zone = (typeof Zone === 'undefined') ? null : Zone.current;
     const w = watch(effectFn, (watch) => {
       if (!this.all.has(watch)) {
         return;
       }
-      this.queue.set(watch, zone);
+      this.queue.add(watch);
       if (!this.hasQueuedFlush) {
         this.hasQueuedFlush = true;
 
@@ -71,13 +70,9 @@ export class EffectManager {
       return;
     }
 
-    for (const [watch, zone] of this.queue) {
+    for (const watch of this.queue) {
       this.queue.delete(watch);
-      if (zone) {
-        zone.run(() => watch.run());
-      } else {
-        watch.run();
-      }
+      watch.run();
     }
   }
 

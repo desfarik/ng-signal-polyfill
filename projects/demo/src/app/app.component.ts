@@ -1,5 +1,13 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { signal, WritableSignal } from 'ngx-signal-polyfill';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { effect, signal } from 'ngx-signal-polyfill';
+
+enum DEMOS {
+  README_SIGNAL = 'Readme signal',
+  README_COMPUTED = 'Readme computed',
+  README_EFFECT = 'Readme effect',
+  README_TO_OBSERVABLE = 'Readme toObservable',
+  TWO_CHILDREN = 'Two children',
+}
 
 @Component({
   selector: 'app-root',
@@ -7,12 +15,26 @@ import { signal, WritableSignal } from 'ngx-signal-polyfill';
   styleUrls: ['./app.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
 
-  child1Visible = signal(true);
-  child2Visible = signal(true);
+  DEMOS = DEMOS;
 
-  toggleHide(signal: WritableSignal<boolean>) {
-    signal.set(!signal());
+  currentDemo = signal<DEMOS>(this.restoreDemo() || DEMOS.README_SIGNAL);
+
+  effectRef = effect(() => {
+    localStorage.setItem('currentDemo', this.currentDemo());
+  });
+
+  openDemo(demo: DEMOS) {
+    this.currentDemo.set(demo);
   }
+
+  private restoreDemo(): DEMOS | undefined {
+    return localStorage.getItem('currentDemo') as DEMOS;
+  }
+
+  ngOnDestroy(): void {
+    this.effectRef.destroy();
+  }
+
 }

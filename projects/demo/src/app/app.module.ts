@@ -2,19 +2,25 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { Child1Module } from './child1/child1.module';
-import { Child2Module } from './child2/child2.module';
 import { SignalPipeModule } from 'ngx-signal-polyfill';
+import { ReadmeSignalComponent } from './demo-blocks/readme-signal/readme-signal.component';
+import { ReadmeComputedComponent } from './demo-blocks/readme-computed/readme-computed.component';
+import { ReadmeEffectComponent } from './demo-blocks/readme-effect/readme-effect.component';
+import { ReadmeToObservableComponent } from './demo-blocks/readme-to-observable/readme-to-observable.component';
+import { TwoChildrenModule } from './demo-blocks/two-children-demo/two-children.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ReadmeSignalComponent,
+    ReadmeComputedComponent,
+    ReadmeEffectComponent,
+    ReadmeToObservableComponent
   ],
   imports: [
     BrowserModule,
-    Child1Module,
-    Child2Module,
-    SignalPipeModule
+    SignalPipeModule,
+    TwoChildrenModule
   ],
   providers: [],
   bootstrap: [AppComponent]
