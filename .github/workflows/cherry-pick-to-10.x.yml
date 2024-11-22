@@ -1,4 +1,4 @@
-name: Cherry Pick to 12.x
+name: Cherry Pick to 10.x
 
 on:
   push:
