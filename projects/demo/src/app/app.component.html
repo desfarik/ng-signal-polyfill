@@ -25,6 +25,12 @@
     </div>
 
     <div class="demo-link"
+         [class.active]="demo ===DEMOS.README_TO_SIGNAL"
+         (click)="openDemo(DEMOS.README_TO_SIGNAL)">
+      Readme toSignal
+    </div>
+
+    <div class="demo-link"
          [class.active]="demo ===DEMOS.TWO_CHILDREN"
          (click)="openDemo(DEMOS.TWO_CHILDREN)">
       Two children
@@ -36,6 +42,7 @@
     <app-readme-computed *ngIf="demo === DEMOS.README_COMPUTED"></app-readme-computed>
     <app-readme-effect *ngIf="demo === DEMOS.README_EFFECT"></app-readme-effect>
     <app-readme-to-observable *ngIf="demo === DEMOS.README_TO_OBSERVABLE"></app-readme-to-observable>
+    <app-readme-to-signal *ngIf="demo === DEMOS.README_TO_SIGNAL"></app-readme-to-signal>
     <app-two-children-demo *ngIf="demo === DEMOS.TWO_CHILDREN"></app-two-children-demo>
   </div>
 </ng-container>

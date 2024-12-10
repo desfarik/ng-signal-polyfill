@@ -8,6 +8,7 @@ import { ReadmeComputedComponent } from './demo-blocks/readme-computed/readme-co
 import { ReadmeEffectComponent } from './demo-blocks/readme-effect/readme-effect.component';
 import { ReadmeToObservableComponent } from './demo-blocks/readme-to-observable/readme-to-observable.component';
 import { TwoChildrenModule } from './demo-blocks/two-children-demo/two-children.module';
+import { ReadmeToSignalComponent } from './demo-blocks/readme-to-signal/readme-to-signal.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { TwoChildrenModule } from './demo-blocks/two-children-demo/two-children.
     ReadmeSignalComponent,
     ReadmeComputedComponent,
     ReadmeEffectComponent,
-    ReadmeToObservableComponent
+    ReadmeToObservableComponent,
+    ReadmeToSignalComponent
   ],
   imports: [
     BrowserModule,
