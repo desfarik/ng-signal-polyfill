@@ -7,9 +7,9 @@
  */
 
 import { Observable, Subject, Subscribable } from 'rxjs';
-import { computed, signal, Signal, untracked, WritableSignal } from 'ngx-signal-polyfill';
 import { isDevMode } from '@angular/core';
 import { take } from 'rxjs/operators';
+import { computed, signal, Signal, untracked, WritableSignal } from '../../signals';
 
 
 /**
