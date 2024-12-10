@@ -6,6 +6,7 @@ enum DEMOS {
   README_COMPUTED = 'Readme computed',
   README_EFFECT = 'Readme effect',
   README_TO_OBSERVABLE = 'Readme toObservable',
+  README_TO_SIGNAL = 'Readme toSignal',
   TWO_CHILDREN = 'Two children',
 }
 
