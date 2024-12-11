@@ -1,14 +1,18 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
 
 @Injectable()
-export class DestroyRef extends ReplaySubject<void> implements OnDestroy {
-  constructor() {
-    super(1);
-  }
+export class DestroyRef implements OnDestroy {
+  private callbacks: Array<() => void> = [];
 
   ngOnDestroy() {
-    this.next();
-    this.complete();
+    this.callbacks.forEach(callback => callback());
+  }
+
+  onDestroy(callback: () => void): () => void {
+    this.callbacks.push(callback);
+    return () => {
+      this.callbacks = this.callbacks.filter(cb => cb !== callback);
+    };
   }
 }
+

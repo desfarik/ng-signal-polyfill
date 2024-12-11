@@ -6,9 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import { Observable, Subject, Subscribable } from 'rxjs';
+import { Observable, Subscribable } from 'rxjs';
 import { isDevMode } from '@angular/core';
-import { take } from 'rxjs/operators';
 import { computed, signal, Signal, untracked, WritableSignal } from '../../signals';
 
 
@@ -34,20 +33,6 @@ export interface ToSignalOptions<T> {
    * not met.
    */
   requireSync?: boolean;
-
-  /**
-   * Whether the subscription should be automatically cleaned up (via `DestroyRef`) when
-   * `toObservable`'s creation context is destroyed.
-   *
-   * If manual cleanup is enabled, then `DestroyRef` is not used, and the subscription will persist
-   * until the `Observable` itself completes.
-   */
-  manualCleanup?: boolean;
-
-  /**
-   * The subscription will be automatically cleaned up when `destroyRef` emit a value.
-   */
-  destroyRef?: Subject<any>;
 }
 
 /**
@@ -159,11 +144,7 @@ export function toSignal<T>(
   options: ToSignalOptions<undefined> & { requireSync: true }): Signal<T>;
 export function toSignal<T, U = undefined>(
   source: Observable<T> | Subscribable<T>, options?: ToSignalOptions<U>): Signal<T | U> {
-  const requiresCleanup = !options?.manualCleanup;
 
-  if (isDevMode() && requiresCleanup && !options?.destroyRef) {
-    throw new Error('`toSignal()` requires a `destroyRef` option when `manualCleanup` is not provided.');
-  }
   // Note: T is the Observable value type, and U is the initial value type. They don't have to be
   // the same - the returned signal gives values of type `T`.
   let state: WritableSignal<State<T | U>>;
@@ -176,20 +157,18 @@ export function toSignal<T, U = undefined>(
   }
 
   untracked(() => {
-    const subscription = source.subscribe({
+    source.subscribe({
       next: value => state.set({ kind: StateKind.Value, value }),
-      error: error => state.set({ kind: StateKind.Error, error })
+      error: error => state.set({ kind: StateKind.Error, error }),
       // Completion of the Observable is meaningless to the signal. Signals don't have a concept of
       // "complete".
+      complete: () => {
+      }
     });
 
     if (isDevMode() && options?.requireSync && state().kind === StateKind.NoValue) {
       throw new Error('`toSignal()` called with `requireSync` but `Observable` did not emit synchronously.');
     }
-
-    options?.destroyRef?.pipe(take(1)).subscribe(() => {
-      subscription.unsubscribe();
-    });
   });
 
   // The actual returned signal is a `computed` of the `State` signal, which maps the various states

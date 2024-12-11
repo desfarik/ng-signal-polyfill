@@ -191,8 +191,9 @@ toSignal:
 
 ```typescript
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { computed, DestroyRef, toSignal } from 'ngx-signal-polyfill';
+import { computed, Destroy$, toSignal } from 'ngx-signal-polyfill';
 import { BehaviorSubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-readme-to-signal',
@@ -205,19 +206,19 @@ import { BehaviorSubject } from 'rxjs';
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyRef]
+  providers: [Destroy$]
 })
 export class ReadmeToSignalComponent {
   counter$ = new BehaviorSubject(0);
 
-  counter = toSignal(this.counter$, { destroyRef: this.destroy$, requireSync: true });
+  counter = toSignal(this.counter$.pipe(takeUntil(this.destroy$)), { requireSync: true });
   counterX2 = computed(() => this.counter() * 2);
 
   increment() {
     this.counter$.next(this.counter$.value + 1);
   }
 
-  constructor(private destroy$: DestroyRef) {
+  constructor(private destroy$: Destroy$) {
   }
 }
 
@@ -225,27 +226,28 @@ export class ReadmeToSignalComponent {
 
 ## API Compatibility
 
-| Feature          | Angular Compatibility                                     | Notes                                                  |
-|------------------|-----------------------------------------------------------|--------------------------------------------------------|
-| **Primitives**   |                                                           |                                                        |
-| `computed`       | ✅ Fully supported                                         | Just copied from @angular/core                         |
-| `signal`         | ✅ Fully supported                                         | Just copied from @angular/core                         |
-| `effect`         | ⚠️ Only manual cleanup                                    | Copied and adopted to usage in older angular versions. |
+| Feature          | Angular Compatibility  | Notes                                                  |
+|------------------|------------------------|--------------------------------------------------------|
+| **Primitives**   |                        |                                                        |
+| `computed`       | ✅ Fully supported      | Just copied from @angular/core                         |
+| `signal`         | ✅ Fully supported      | Just copied from @angular/core                         |
+| `effect`         | ⚠️ Only manual cleanup | Copied and adopted to usage in older angular versions. |
 | **RxJS Interop** |
-| `toObservable`   | ⚠️ Only manual cleanup                                    | Copied and adopted to usage in older angular versions. |
-| `toSignal`       | ⚠️ Requires `manualCleanup: true` or `destroyRef` option. | Copied and adopted to usage in older angular versions. |
+| `toObservable`   | ⚠️ Only manual cleanup | Copied and adopted to usage in older angular versions. |
+| `toSignal`       | ⚠️ Only manual cleanup | Copied and adopted to usage in older angular versions. |
 
 ## Don't Forget to Unsubscribe
 
-In original Angular, if you use `effect` or `toObservable` in an injection context, you don't need to unsubscribe from it. However, we cannot implement this  ~~automagic~~ **automatic** unsubscribe feature in our polyfill.
+In original Angular, if you use `effect`, `toObservable` or `toSignal` in an injection context, you don't need to unsubscribe from it. However, we cannot implement this  ~~automagic~~ **automatic** unsubscribe feature in our polyfill.
 
-Therefore, you need to be careful and remember to manually unsubscribe from `effect` or `toObservable`.
+Therefore, you need to be careful and remember to manually unsubscribe from `effect`, `toObservable` or `toSignal`.
 
 In this regard, I recommend using `toObservable` instead of `effect` because there are many tools available to make automatic RxJS unsubscription easier. Here are some useful tools:
 
 - `Async | pipe`: Automatically handles unsubscription when the component is destroyed.
 - [@ngneat/until-destroy](https://www.npmjs.com/package/@ngneat/until-destroy): A decorator that automatically unsubscribes from observables when the component is destroyed.
-- `takeUntil(notifier)`: notifier emits value when the component is destroyed.
+- `takeUntil(this.destroy$)`: `destroy$` will emits value when the component is destroyed.
+- `takeUntil(notifier)`: Use any notifier to handle unsubscription.
 
 ## Future Plans
 

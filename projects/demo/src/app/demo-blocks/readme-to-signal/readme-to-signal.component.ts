@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { computed, DestroyRef, toSignal } from 'ngx-signal-polyfill';
+import { computed, Destroy$, toSignal } from 'ngx-signal-polyfill';
 import { BehaviorSubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-readme-to-signal',
@@ -13,18 +14,18 @@ import { BehaviorSubject } from 'rxjs';
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DestroyRef]
+  providers: [Destroy$]
 })
 export class ReadmeToSignalComponent {
   counter$ = new BehaviorSubject(0);
 
-  counter = toSignal(this.counter$, { destroyRef: this.destroy$, requireSync: true });
+  counter = toSignal(this.counter$.pipe(takeUntil(this.destroy$)), { requireSync: true });
   counterX2 = computed(() => this.counter() * 2);
 
   increment() {
     this.counter$.next(this.counter$.value + 1);
   }
 
-  constructor(private destroy$: DestroyRef) {
+  constructor(private destroy$: Destroy$) {
   }
 }
