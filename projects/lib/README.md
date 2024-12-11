@@ -226,15 +226,15 @@ export class ReadmeToSignalComponent {
 
 ## API Compatibility
 
-| Feature          | Angular Compatibility  | Notes                                                  |
-|------------------|------------------------|--------------------------------------------------------|
-| **Primitives**   |                        |                                                        |
-| `computed`       | ✅ Fully supported      | Just copied from @angular/core                         |
-| `signal`         | ✅ Fully supported      | Just copied from @angular/core                         |
-| `effect`         | ⚠️ Only manual cleanup | Copied and adopted to usage in older angular versions. |
+| Feature          | Angular Compatibility                      | Notes                                                  |
+|------------------|--------------------------------------------|--------------------------------------------------------|
+| **Primitives**   |                                            |                                                        |
+| `computed`       | ✅ Fully supported                          | Just copied from @angular/core                         |
+| `signal`         | ✅ Fully supported                          | Just copied from @angular/core                         |
+| `effect`         | ⚠️ `manualCleanup: true` is always enabled | Copied and adopted to usage in older angular versions. |
 | **RxJS Interop** |
-| `toObservable`   | ⚠️ Only manual cleanup | Copied and adopted to usage in older angular versions. |
-| `toSignal`       | ⚠️ Only manual cleanup | Copied and adopted to usage in older angular versions. |
+| `toObservable`   | ⚠️ `manualCleanup: true` is always enabled | Copied and adopted to usage in older angular versions. |
+| `toSignal`       | ⚠️ `manualCleanup: true` is always enabled | Copied and adopted to usage in older angular versions. |
 
 ## Don't Forget to Unsubscribe
 
